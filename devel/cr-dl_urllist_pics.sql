@@ -33,9 +33,9 @@ for url_elem in arg_urllist.splitlines():
      
     r1=re.compile('/')
     filename = r1.split(pic_url)[-1]
-    logger.debug("filename={0}".format(filename.decode('utf-8').encode('utf-8')))
+    logger.debug("filename={0}".format(filename))
     pic_filename =  pic_path + filename.decode('utf-8')
-    logger.debug("pic_filename={0}".format(pic_filename.decode('utf-8').encode('utf-8')))
+    logger.debug("pic_filename={0}".format(pic_filename.encode('utf-8')))
     r = requests.get(proto + url)
     if 200 == r.status_code:
         with open(pic_filename, "wb") as code:
