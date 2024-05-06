@@ -1,7 +1,7 @@
-CREATE OR REPLACE FUNCTION dl_urllist_pics(
-    arg_urllist text)
-RETURNS boolean AS
-$BODY$
+CREATE OR REPLACE FUNCTION public.dl_urllist_pics(arg_urllist text)
+ RETURNS boolean
+ LANGUAGE plpython2u
+AS $function$
 #-*- coding:utf-8 -*-
 import re
 import requests
@@ -46,7 +46,8 @@ cmd_cmd = '/usr/bin/rsync'
 cmd_args = '-rltgoDvv'
 cmd_src = pic_path
 logger.debug("cmd_src={0}".format(cmd_src.encode('utf-8')))
-cmd_tgt = 'order_photo@cifs-public.arc.world:/mnt/r10/ds_cifs/public/' + order_photos_path #.decode('utf-8') #+ '/'
+cmd_tgt = 'root@cifs-public.arc.world:/mnt/r10/ds_cifs/public/' + order_photos_path #.decode('utf-8') #+ '/'
+# home_dir on target problem: cmd_tgt = 'order_photo@cifs-public.arc.world:/mnt/r10/ds_cifs/public/' + order_photos_path #.decode('utf-8') #+ '/'
 logger.debug("cmd_tgt={0}".format(cmd_tgt.encode('utf-8')))
 import subprocess
 try:
@@ -57,6 +58,6 @@ except OSError as e:
 logger.info("rsync rc={0}".format(rc) )
 
 return True if 0 == rc else False
-$BODY$
-  LANGUAGE plpython2u VOLATILE
-  COST 100;
+$function$
+;
+
